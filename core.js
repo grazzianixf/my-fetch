@@ -8,18 +8,24 @@ const textUrl = document.getElementById("url");
 const optionMethod = document.getElementById("method");
 const textRequestBody = document.getElementById("requestBody");
 const textResponseBody = document.getElementById("responseBody");
+const message = document.getElementById('message')
+let loadMessage = document.createElement('span')
 
 const btnEnviar = document.getElementById("enviar");
 
-const startLoading = (_) => {
-	// TODO
-	// desabilitar todos os componentes do formulario que estão habilitados
-	// colocar a msg passada como parametro em um span entre o requestBody e responseBody. Sendo que esse span só aparece quando tiver alguma msg nele
+const startLoading = (msg) => {
+	textUrl.disabled = true
+	textRequestBody.disabled = true
+	optionMethod.disabled = true
+	loadMessage.innerText = msg
+	message.appendChild(loadMessage)
 };
 
 const stopLoading = (_) => {
-	// TODO
-	// habilitar todos os campso do formulario, exceto o responseBody que deve ser sempre disabled
+	textUrl.disabled = false
+	textRequestBody.disabled = false
+	optionMethod.disabled = false
+	message.removeChild(loadMessage)
 };
 
 const enviar = (e) => {
@@ -43,7 +49,7 @@ const enviar = (e) => {
 				null,
 				4 /* espaços */
 			);
-         stopLoading();
+  		stopLoading();
 		});
 
       // TODO implementar o catch para exibir no responseBody os erros vindos  no response caso o status da response seja diferente da faixa 200
