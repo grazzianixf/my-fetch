@@ -1,0 +1,35 @@
+<html>
+   <head>
+      
+   </head>
+   <body>
+      <form>
+         <div style="display: flex; flex-direction: column; align-items: center; justify-content: space-between;">
+            <div style="max-width: 80vw;">
+               <label for="url">URL:</label>
+               <input type="text" style="max-width: 65vw;" size="200" name="url" id="url" value="https://api.breakingbadquotes.xyz/v1/quotes" />
+               <select name="method" id="method">
+                  <option value="GET">GET</option>
+                  <option value="POST">POST</option>
+                  <option value="PUT">PUT</option>
+                  <option value="DELETE">DELETE</option>
+               </select>
+            </div>
+            <label for="requestBody">Request Body:</label>
+            <textarea id="requestBody" name="requestBody" rows="6" cols="50"
+               style="width: 80vw;"
+            ></textarea>
+            <label for="responseBody">Response Body:</label>
+            <textarea id="responseBody" name="responseBody" disabled=true rows="6" cols="50"
+               style="width: 80vw;"
+            ></textarea> 
+            <div
+               style="padding: 20px;"
+               >
+               <input type="button" name="enviar" id="enviar" value="Enviar">     
+            </div>   
+         </div>
+      </form>
+   </body>
+   <script charset="utf-8" src="core.js"></script>
+</html>
