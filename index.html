@@ -1,6 +1,6 @@
 <html>
    <head>
-      
+      <title></title>
    </head>
    <body>
       <form>
@@ -15,7 +15,11 @@
                   <option value="DELETE">DELETE</option>
                </select>
             </div>
-            <!-- TODO criar formulário para informar HEADERS -->
+            <p id="showHeader" onclick="showHeader()" style="display: contents;">Show Headers</p>
+            <p id="hideHeader" onclick="hideHeader()" style="display: none;">Hide Headers</p>
+            <div id="headers" style="text-align: center; display: none">
+               <!-- Inputs para preenchimentos das headers. Criados dinamicamente -->
+            </div>
             <div style="display: flex; flex-direction: column; align-items: center; justify-content: space-between;">
                <label for="requestBody">Request Body:</label>
                <textarea id="requestBody" name="requestBody" rows="6" cols="50"
@@ -23,7 +27,7 @@
                ></textarea>
             </div>
             <div id="message">
-               
+              <!-- Mensagem para o usuário exibida somente quando o aplicativo estiver em processamento  -->
             </div> 
             <!-- TODO colocar um campo para mostrar o responseStatus -->
             <div style="display: flex; flex-direction: column; align-items: center; justify-content: space-between;">
