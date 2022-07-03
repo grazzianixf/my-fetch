@@ -12,16 +12,12 @@ const message = document.getElementById('message');
 const loadMessage = document.createElement('span');
 
 const headers = document.getElementById('headers') 
-const headerInputs = document.createElement('div')
-const keyInput = document.createElement('input')
-const valueInput = document.createElement('input')
 const addHeader = document.createElement('button')
 addHeader.innerText = '+'
 addHeader.setAttribute("type", "button")
 
-headerInputs.appendChild(keyInput)
-headerInputs.appendChild(valueInput)
-headers.appendChild(headerInputs)
+let newHeaders = []
+
 headers.appendChild(addHeader)
 
 const btnEnviar = document.getElementById("enviar");
@@ -46,28 +42,41 @@ const startLoading = (msg) => {
 	optionMethod.disabled = true;
 	loadMessage.innerText = msg;
 	message.appendChild(loadMessage);
+
+	newHeaders.forEach(element => {
+		element.key.disabled = true
+		element.value.disabled = true
+	})
 };
 
 const stopLoading = (_) => {
 	textUrl.disabled = false;
 	textRequestBody.disabled = false;
 	optionMethod.disabled = false;
+
+	newHeaders.forEach(element => {
+		element.key.disabled = false
+		element.value.disabled = false
+	})
+
 	message.removeChild(loadMessage);
 };
 
 const enviar = (e) => {
-	let obj = {
-		url: textUrl.value,
+	let objHeaders = new Headers()
+	newHeaders.map((header) => {
+		objHeaders.append(header.key.value, header.value.value)
+	})
+
+	let obj = { 
 		method: optionMethod.value,
-		headers: {}, // TODO capturar HEADERS vindos do formulário
+		headers: objHeaders, 
 		requestBody: textRequestBody.value,
 	};
 	
 	startLoading("Processando...");
 	
-	fetch(obj.url, {
-		method: obj.method,
-	})
+	fetch(textUrl.value, obj)
 		.then((response) => response.text())
 		.then((responseText) => {
 			// TODO checar antes se responseText é um JSON, caso contrário dará um erro
@@ -99,6 +108,8 @@ addHeader.addEventListener('click', function() {
 	newHeader.appendChild(newValue)
 	headers.appendChild(newHeader)
 	headers.insertBefore(newHeader, addHeader)
+
+	newHeaders.push({key: newKey, value: newValue})
 })
 
 document.addEventListener("DOMContentLoaded", load, false);
