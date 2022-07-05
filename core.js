@@ -63,30 +63,35 @@ const stopLoading = (_) => {
 };
 
 const enviar = (e) => {
-	let objHeaders = new Headers()
-	newHeaders.map((header) => {
-		objHeaders.append(header.key.value, header.value.value)
-	})
+	try {
+		let objHeaders = new Headers()
+		newHeaders.map((header) => {
+			objHeaders.append(header.key.value, header.value.value)
+		})
+	
+		let obj = { 
+			method: optionMethod.value,
+			headers: objHeaders, 
+			requestBody: textRequestBody.value,
+		};
+		
+		startLoading("Processando...");
 
-	let obj = { 
-		method: optionMethod.value,
-		headers: objHeaders, 
-		requestBody: textRequestBody.value,
-	};
-	
-	startLoading("Processando...");
-	
-	fetch(textUrl.value, obj)
-		.then((response) => response.text())
-		.then((responseText) => {
-			// TODO checar antes se responseText é um JSON, caso contrário dará um erro
-			textResponseBody.value = JSON.stringify(
-				JSON.parse(responseText),
-				null,
-				4 /* espaços */
-				);
-				stopLoading();
-			});
+		fetch(textUrl.value, obj)
+			.then((response) => response.text())
+			.then((responseText) => {
+				// TODO checar antes se responseText é um JSON, caso contrário dará um erro
+				textResponseBody.value = JSON.stringify(
+					JSON.parse(responseText),
+					null,
+					4 /* espaços */
+					);
+					stopLoading();
+				});
+	} catch (error) {
+		textResponseBody.value = error
+		stopLoading()
+	}
 
       // TODO implementar o catch para exibir no responseBody os erros vindos  no response caso o status da response seja diferente da faixa 200
 };
