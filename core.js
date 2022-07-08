@@ -22,6 +22,10 @@ const newHeaders = []
 
 headers.appendChild(addHeader)
 
+const alertField = document.getElementById('alert')
+const alertMessage = document.createElement('span')
+const deleteAlertMsg = document.createElement('span')
+
 const btnEnviar = document.getElementById("enviar");
 
 const isJson = (str) => {
@@ -58,6 +62,9 @@ const startLoading = (msg) => {
 		element.key.disabled = true
 		element.value.disabled = true
 	})
+
+	statusResponse.value = ""
+	textResponseBody.value = ""
 };
 
 const stopLoading = (_) => {
@@ -92,23 +99,41 @@ const enviar = (e) => {
 
 	fetch(textUrl.value, obj)
 		.then((response) => {
+			console.log('1º Then')
 			statusResponse.value = response.status
-			return response.text()
+			if (response.status >= 200 && response.status < 300) {
+				alertField.style.backgroundColor = "lightGreen"
+				alertField.appendChild(alertMessage)
+				alertField.appendChild(deleteAlertMsg)
+				alertMessage.innerText = "Requisição com sucesso"
+				deleteAlertMsg.innerText = "x"
+			} else {
+				alertField.style.backgroundColor = "red"
+				alertField.appendChild(alertMessage)
+				alertField.appendChild(deleteAlertMsg)
+				alertMessage.innerText = "Erro na requisição"
+				deleteAlertMsg.innerText = "x"
+			}
+			return response.text() 
 		})
 		.then((responseText) => {
+			console.log('2º Then')
 			if (isJson(responseText) === true) {
 				textResponseBody.value = JSON.stringify(JSON.parse(responseText), null, 4);
-				stopLoading();
 			} else {
 				textResponseBody.value = responseText
-				stopLoading();
 			}
 		}).catch(error => {
-			textResponseBody.value = error
+			console.log("Catch")
+				alertField.style.backgroundColor = "red"
+				alertField.appendChild(alertMessage)
+				alertField.appendChild(deleteAlertMsg)
+				alertMessage.innerText = "Erro na requisição"
+				deleteAlertMsg.innerText = "x"
+		}).finally(() => {
+			console.log("Finally")
 			stopLoading();
 		});
-
-	// TODO implementar o catch para exibir no responseBody os erros vindos  no response caso o status da response seja diferente da faixa 200
 };
 
 const setupEvents = (_) => {
@@ -130,6 +155,12 @@ addHeader.addEventListener('click', function () {
 	headers.insertBefore(newHeader, addHeader)
 
 	newHeaders.push({ key: newKey, value: newValue })
+})
+
+deleteAlertMsg.addEventListener('click', function () {
+	alertField.removeChild(alertMessage)
+	alertField.removeChild(deleteAlertMsg)
+	alertField.style.backgroundColor = "transparent"
 })
 
 document.addEventListener("DOMContentLoaded", load, false);
