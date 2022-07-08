@@ -1,26 +1,37 @@
 /*
-   https://github.com/shevabam/breaking-bad-quotes
-   https://github.com/ywalia01/dune-api
-   https://api.publicapis.org/entries
+	 https://github.com/shevabam/breaking-bad-quotes
+	 https://github.com/ywalia01/dune-api
+	 https://api.publicapis.org/entries
 */
+
 const textUrl = document.getElementById("url");
 const optionMethod = document.getElementById("method");
 const textRequestBody = document.getElementById("requestBody");
 const textResponseBody = document.getElementById("responseBody");
+const statusResponse = document.getElementById("responseStatus")
 
 const message = document.getElementById('message');
 const loadMessage = document.createElement('span');
 
-const headers = document.getElementById('headers') 
+const headers = document.getElementById('headers')
 const addHeader = document.createElement('button')
 addHeader.innerText = '+'
 addHeader.setAttribute("type", "button")
 
-let newHeaders = []
+const newHeaders = []
 
 headers.appendChild(addHeader)
 
 const btnEnviar = document.getElementById("enviar");
+
+const isJson = (str) => {
+	try {
+		JSON.parse(str);
+	} catch (e) {
+		return false;
+	}
+	return true;
+}
 
 const showHeader = () => {
 	headers.style.display = "contents"
@@ -63,37 +74,41 @@ const stopLoading = (_) => {
 };
 
 const enviar = (e) => {
-	try {
-		let objHeaders = new Headers()
-		newHeaders.map((header) => {
+
+	startLoading("Processando...");
+
+	let objHeaders = new Headers()
+	newHeaders.map((header) => {
+		if (header.key.value !== "" && header.value.value !== "") {
 			objHeaders.append(header.key.value, header.value.value)
+		}
+	})
+
+	let obj = {
+		method: optionMethod.value,
+		headers: objHeaders,
+		requestBody: textRequestBody.value,
+	};
+
+	fetch(textUrl.value, obj)
+		.then((response) => {
+			statusResponse.value = response.status
+			return response.text()
 		})
-	
-		let obj = { 
-			method: optionMethod.value,
-			headers: objHeaders, 
-			requestBody: textRequestBody.value,
-		};
-		
-		startLoading("Processando...");
+		.then((responseText) => {
+			if (isJson(responseText) === true) {
+				textResponseBody.value = JSON.stringify(JSON.parse(responseText), null, 4);
+				stopLoading();
+			} else {
+				textResponseBody.value = responseText
+				stopLoading();
+			}
+		}).catch(error => {
+			textResponseBody.value = error
+			stopLoading();
+		});
 
-		fetch(textUrl.value, obj)
-			.then((response) => response.text())
-			.then((responseText) => {
-				// TODO checar antes se responseText é um JSON, caso contrário dará um erro
-				textResponseBody.value = JSON.stringify(
-					JSON.parse(responseText),
-					null,
-					4 /* espaços */
-					);
-					stopLoading();
-				});
-	} catch (error) {
-		textResponseBody.value = error
-		stopLoading()
-	}
-
-      // TODO implementar o catch para exibir no responseBody os erros vindos  no response caso o status da response seja diferente da faixa 200
+	// TODO implementar o catch para exibir no responseBody os erros vindos  no response caso o status da response seja diferente da faixa 200
 };
 
 const setupEvents = (_) => {
@@ -104,7 +119,7 @@ const load = () => {
 	setupEvents();
 };
 
-addHeader.addEventListener('click', function() {
+addHeader.addEventListener('click', function () {
 	let newHeader = document.createElement('div')
 	let newKey = document.createElement('input')
 	let newValue = document.createElement('input')
@@ -114,7 +129,7 @@ addHeader.addEventListener('click', function() {
 	headers.appendChild(newHeader)
 	headers.insertBefore(newHeader, addHeader)
 
-	newHeaders.push({key: newKey, value: newValue})
+	newHeaders.push({ key: newKey, value: newValue })
 })
 
 document.addEventListener("DOMContentLoaded", load, false);
