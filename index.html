@@ -29,7 +29,12 @@
             <div id="message">
               <!-- Mensagem para o usuário exibida somente quando o aplicativo estiver em processamento  -->
             </div> 
-            <!-- TODO colocar um campo para mostrar o responseStatus -->
+            <div style="display: flex; flex-direction: column; align-items: center; justify-content: space-between;">
+               <label for="responseStatus">Response Status:</label>
+               <textarea id="responseStatus" name="responseStatus" disabled=true rows="1" cols="50"
+                  style="width: 80vw;"
+               ></textarea> 
+            </div>
             <div style="display: flex; flex-direction: column; align-items: center; justify-content: space-between;">
                <label for="responseBody">Response Body:</label>
                <textarea id="responseBody" name="responseBody" disabled=true rows="6" cols="50"
