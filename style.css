@@ -1,0 +1,42 @@
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+body {
+  background-color: #053040;
+  padding: 20px;
+}
+
+.app {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  color: #addccf;
+  
+}
+
+.link {
+  cursor: pointer;
+}
+
+.textarea {
+  width: 80vw;
+}
+
+.alert {
+  display: flex; 
+  margin-top: 20px; 
+  padding: 10px; 
+  justify-content: space-between; 
+  width: 20%;
+  color: black;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.button {
+  margin-top: 5px;
+}

@@ -15,16 +15,17 @@ const loadMessage = document.createElement('span');
 
 const headers = document.getElementById('headers')
 const addHeader = document.createElement('button')
+addHeader.classList.add("button", "is-light", "is-small")
 addHeader.innerText = '+'
 addHeader.setAttribute("type", "button")
+headers.appendChild(addHeader)
 
 const newHeaders = []
-
-headers.appendChild(addHeader)
 
 const alertField = document.getElementById('alert')
 const alertMessage = document.createElement('span')
 const deleteAlertMsg = document.createElement('span')
+deleteAlertMsg.classList.add("link")
 
 const btnEnviar = document.getElementById("enviar");
 
@@ -80,7 +81,7 @@ const stopLoading = (_) => {
 	message.removeChild(loadMessage);
 };
 
-const enviar = (e) => {
+const send = (e) => {
 
 	startLoading("Processando...");
 
@@ -102,16 +103,16 @@ const enviar = (e) => {
 			console.log('1º Then')
 			statusResponse.value = response.status
 			if (response.status >= 200 && response.status < 300) {
-				alertField.style.backgroundColor = "lightGreen"
+				alertField.style.backgroundColor = "#4AD9B0"
 				alertField.appendChild(alertMessage)
 				alertField.appendChild(deleteAlertMsg)
-				alertMessage.innerText = "Requisição com sucesso"
+				alertMessage.innerText = "REQUISIÇAO COM SUCESSO"
 				deleteAlertMsg.innerText = "x"
 			} else {
-				alertField.style.backgroundColor = "red"
+				alertField.style.backgroundColor = "#F23005"
 				alertField.appendChild(alertMessage)
 				alertField.appendChild(deleteAlertMsg)
-				alertMessage.innerText = "Erro na requisição"
+				alertMessage.innerText = "ERRO NA REQUISIÇÃO"
 				deleteAlertMsg.innerText = "x"
 			}
 			return response.text() 
@@ -137,7 +138,7 @@ const enviar = (e) => {
 };
 
 const setupEvents = (_) => {
-	btnEnviar.addEventListener("click", enviar);
+	btnEnviar.addEventListener("click", send);
 };
 
 const load = () => {
