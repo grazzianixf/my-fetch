@@ -10,8 +10,8 @@
          <section class="app">
             <div>
                <label for="url">URL:</label>
-               <input type="text" style="max-width: 65vw;" size="200" name="url" id="url" value="https://api.breakingbadquotes.xyz/v1/quotes" />
-               <select name="method" id="method">
+               <input class="input is-primary is-small" type="text" style="max-width: 65vw;" size="200" name="url" id="url" value="https://api.breakingbadquotes.xyz/v1/quotes" />
+               <select class="select is-small" name="method" id="method">
                   <option value="GET">GET</option>
                   <option value="POST">POST</option>
                   <option value="PUT">PUT</option>
@@ -21,6 +21,7 @@
             <p class="link" id="showHeader" onclick="showHeader()" style="display: contents;">Show Headers</p>
             <p class="link" id="hideHeader" onclick="hideHeader()" style="display: none;">Hide Headers</p>
             <div id="headers" style="text-align: center; display: none">
+               <button class="button is-light is-small" id="addHeaders" onclick="addHeaders()">+</button>
                <!-- Inputs para preenchimentos das headers. Criados dinamicamente -->
             </div>
             <div class="app">
@@ -33,20 +34,20 @@
             </div> 
             <div class="app">
                <label for="responseStatus">Response Status:</label>
-               <textarea class="textarea is-primary is-small" id="responseStatus" name="responseStatus" disabled=true rows="1" cols="50"
-               ></textarea> 
+               <input class="input is-primary is-small" type="text" id="responseStatus" name="responseStatus" disabled/>
             </div>
             <div class="app">
                <label for="responseBody">Response Body:</label>
                <textarea class="textarea is-primary" id="responseBody" name="responseBody" disabled=true rows="6" cols="50"
                ></textarea> 
             </div>
-            <div class="alert" id="alert">
-               <!-- Mensagem de alerta -->
-            </div>
             <div class="app">
-               <button class="button is-primary" type="button" name="enviar" id="enviar" value="Enviar">Enviar</button>    
+               <button class="button is-primary" id="enviar" onclick="send()">Enviar</button>    
             </div>  
+            <div class="alert" id="alert">
+               <span id="alertMsg"></span>
+               <span id="deleteMsg" class="link" onclick="hideMessage()"></span>
+            </div>
          </section>
    </body>
    <script charset="utf-8" src="core.js"></script>

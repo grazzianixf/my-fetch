@@ -15,7 +15,6 @@ body {
   align-items: center;
   justify-content: space-between;
   color: #addccf;
-  
 }
 
 .link {
@@ -27,14 +26,13 @@ body {
 }
 
 .alert {
-  display: flex; 
-  margin-top: 20px; 
+  display: flex;
+  margin-top: 10px; 
   padding: 10px; 
   justify-content: space-between; 
   width: 20%;
   color: black;
   border-radius: 5px;
-  margin-bottom: 10px;
 }
 
 .button {
